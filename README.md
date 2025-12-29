@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clodotech - Gestionnaire de Bibliotheque
 
-## Getting Started
+Application web de gestion de bibliotheque personnelle avec scan ISBN, suivi de lecture et notifications.
 
-First, run the development server:
+## Fonctionnalites
+
+- Scan ISBN pour ajouter des livres automatiquement (via Google Books API)
+- Statuts de lecture : A lire, En cours, Lu
+- Systeme de notation (etoiles)
+- Wishlist / Favoris
+- Marque-page (page actuelle)
+- Notifications de nouvelles sorties d'auteurs suivis
+- Recherche par titre, auteur ou categorie
+- Dashboard admin pour gerer les utilisateurs
+
+## Technologies
+
+- **Frontend:** Next.js 16, React 19, TailwindCSS 4
+- **Backend:** Next.js API Routes, Prisma ORM
+- **Base de donnees:** SQLite
+- **Auth:** NextAuth.js v5 (JWT)
+
+## Installation
 
 ```bash
+# Cloner le repo
+git clone https://github.com/votre-username/clodotech.git
+cd clodotech
+
+# Installer les dependances
+npm install
+
+# Initialiser la base de donnees
+npx prisma db push
+
+# Lancer le serveur de dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Compte Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pour tester l'application, utilisez le compte admin pre-configure :
 
-## Learn More
+| Champ | Valeur |
+|-------|--------|
+| **Email** | `demo@clodotech.com` |
+| **Mot de passe** | `Demo1234` |
 
-To learn more about Next.js, take a look at the following resources:
+Ce compte a les droits administrateur et peut gerer tous les utilisateurs.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure du Projet
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+├── admin/          # Dashboard admin
+├── api/            # API Routes
+├── components/     # Composants React
+├── login/          # Page connexion
+├── register/       # Page inscription
+lib/
+├── auth.ts         # Config NextAuth
+├── prisma.ts       # Client Prisma
+├── validation.ts   # Schemas Zod
+prisma/
+├── schema.prisma   # Schema BDD
+├── dev.db          # Base SQLite
+```
 
-## Deploy on Vercel
+## Securite
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Validation des entrees avec Zod
+- Rate limiting sur les routes auth
+- Hash bcrypt (cost 14) pour les mots de passe
+- Protection des routes admin via middleware
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
+
+---
+
+Fait avec Claude Code

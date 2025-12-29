@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/app/generated/prisma
+
+# IDE
+.idea/
+
+# Archives et extractions
+*.zip
+*_extracted/
+
+# Database locale (optionnel - a inclure pour demo)
+# prisma/dev.db

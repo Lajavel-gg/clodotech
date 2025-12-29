@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  image         String?
+  role          String    @default("user") // user, admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  livres           Livre[]
+  notifications    Notification[]
+  followedAuthors  FollowedAuthor[]
+}
+
+model Livre {
+  id          Int      @id @default(autoincrement())
+  isbn        String
+  titre       String
+  sousTitre   String?
+  auteur      String
+  dateSortie  String?
+  editeur     String?
+  categorie   String?
+  description String?
+  image       String?
+  pages       Int?
+  dateAjout   DateTime @default(now())
+
+  // User relation
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Reading features
+  status      String   @default("to_read") // to_read, reading, completed
+  rating      Int?     // 1-5
+  notes       String?
+  wishlist    Boolean  @default(false)
+  startedAt   DateTime?
+  completedAt DateTime?
+  currentPage Int?     // Bookmark - current page number
+  chapitres   Int?     // Number of chapters (if known)
+
+  @@unique([userId, isbn])
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // new_release, reading_reminder, achievement
+  title     String
+  message   String
+  bookId    Int?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model FollowedAuthor {
+  id         String   @id @default(cuid())
+  userId     String
+  authorName String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, authorName])
+  @@index([userId])
+}
