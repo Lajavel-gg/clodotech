@@ -24,7 +24,7 @@ Application web de gestion de bibliotheque personnelle avec scan ISBN, suivi de 
 
 ```bash
 # Cloner le repo
-git clone https://github.com/votre-username/clodotech.git
+git clone https://github.com/Lajavel-gg/clodotech.git
 cd clodotech
 
 # Installer les dependances
